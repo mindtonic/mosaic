@@ -1,0 +1,221 @@
+LENNON MOSAIC APPLICATION STORIES
+=================================
+
+User/Role Contexts:
+
+	SysAdmin - System admin works with the Mosaic from the command line
+	Admin - Admin works with the mosaic from the application interface
+	System - Behind the Scenes processing
+	User - 3rd party visitor who views and interacts with the Mosaic
+
+Model/Action Contexts:
+
+	Mosaic - The main class, responsible for creating and managing the Mosaic itself
+	Master - The Master Photo that the Mosaic is built on
+	Content Source - Class representing a source of image content, this class is responsible for pulling the new content
+	Content - Class representing a Content Item, responsible for processing and storage of a single image
+
+Other:
+	The Application - the website interface for both viewing and managing the Mosaic	
+
+
+------------------------------
+Iteration Descriptions
+------------------------------
+
+Step One: will mostly be run by me at the command line to get the project off the ground, make sure the actual image manipulation parts are working and compiling the mosaic properly and the outputted image is what we want it to be.  This section will be tested using a single image feed from somewhere, probably just a general Creative Allies feed as that will force me to implement image feeds from our end.
+
+Step Two: will then be to add the ability to record and save the information on the images, save the master image, and generate the new mosaic from the existing data.  This step is expected to speed up the image creation process.
+
+Step Three: will be adding multiple Image feed sources to the Mosaic engine.  At this point we will add YouTube in addition to the Creative Allies feed.
+
+Step Four: will be to enhance the presentation of the mosaic into both a standard output image and a javascript driven interactive table which will (hopefully) look feel and work like the YouTube flash based one.
+
+Step Five: will be to move all of this into the Creative Allies application and create the ability for any admin (You, Josh, etc.) to manage the image sources and images used to create the mosaic.
+
+Step Six: will be to sit back, smile, drink some tequila and have a big party!  Be sure to invite Yoko
+
+
+------------------------------
+Initial Iteration
+------------------------------
+
+SysAdmin Instates the Class
+	The SysAdmin opens a Shell, types a command and sees a welcome message
+	
+SysAdmin Assigns A Master
+	The SysAdmin assigns the Master Image to an Instance Variable
+	
+SysAdmin Resizes Master
+	The SysAdmin resizes the master image, which is not saved at this time
+	
+SysAdmin Pulls Image Tiles
+	The SysAdmin pulls an array of URL's from a predefined source.
+	These are our Image Tiles.
+	
+SysAdmin Gets Average Color
+	The SysAdmin calculates the average color of each Image Tile
+	And assigns it to an array with the average as the key and the image as the value.
+	
+The SysAdmin Iterates Over The Master
+	The SysAdmin iterates over the master image replacing each pixel with the closest average matching Tile
+	
+The SysAdmin Saves the new Master
+	The SysAdmin saves the new master image
+
+
+------------------------------
+SysAdmin & System Interaction
+------------------------------
+
+SysAdmin Starts Mosaic
+	The SysAdmin opens a shell, types a command and sees a welcome message and a prompt waiting for instruction
+	
+SysAdmin Assigns a Master
+	The SysAdmin assigns a value to the Master Class
+	
+	System Resizes Master
+		The System resizes the Master Image according to the requirements
+	
+	System Saves Master
+		The System saves the Master Image to the mosaic_store
+	
+SysAdmin Adds a Content Source
+	The SysAdmin inputs the command to add a new Content Source, which is stored in a flat file or other storage system
+
+SysAdmin Pulls new Content
+	The SysAdmin inputs the command to pull new content
+	
+	System Looks For New Content
+		The System goes through all Content Sources, looking for new content
+
+	System Finds New Content
+		The System pulls the image associated with the new content
+	
+	System Saves the Image
+		The System saves the original version of the image into the mosaic_store
+		
+	System Calculates the Average Color
+		The System collects all of the pixels from the image and calculates the Average Color
+		
+	System Resizes the Image
+		The System creates a resized version of the image to use in the Mosaic
+		
+	System Saves the Image
+		The System saves the resized version of the image
+	
+	System Save Image Information
+		The System saves the image information into a flat file or other storage system
+
+SysAdmin Orders new Mosaic
+	The SysAdmin inputs the command to build the new mosaic
+	
+	The System reads the Master into an Array
+		The System reads the pixel colors into an Array
+		
+	The System Compares to Content
+		The System finds the Content Item with the closest Average Color to the pixel
+		
+	The System Compiles the new Image
+		The System rolls through the array and compiles the images into a new master
+		
+	The System Saves the new Image
+		The System saves the new Image and records the most recent version
+		
+	The System Saves the Array
+		The System saves the Array of pixels into store so that the tabled version can be rendered 
+
+SysAdmin Views Mosaic
+	The SysAdmin enters the command to view the new Mosaic
+	
+	System Shows Mosaic
+		The System opens a browser and displays the saved Mosaic Image
+
+SysAdmin Schedules System
+	The SysAdmin enters the command to schedule the System to refresh the Mosaic
+
+------------------------------
+Admin Interaction
+------------------------------
+
+Admin Starts Mosaic
+	The Admin starts Mosaic through the application
+	
+Admin Pulls new Content
+	The Admin clicks the link to pull new Content
+	The System goes through all Content Sources, looking for new content
+
+	System Processes new Content
+		The System processes the new content and stores the information in a flat file or other storage system
+		
+Admin Builds new Mosaic
+	The Admin clicks the link to rebuild the Mosaic
+	The System builds the Mosaic based on the existing Content and saves the output
+	
+Admin Views new Mosaic
+	The Admin clicks the link to view the Mosaic
+	The System displays the Mosaic in the current browser window
+
+------------------------------
+User Interaction
+------------------------------
+
+User Views Mosaic
+	The User clicks a link
+	The System displays the Mosaic in the current browser window
+	
+------------------------------
+System Interaction
+------------------------------
+
+System Starts Mosaic on Schedule
+	The System starts Mosaic at the Scheduled time
+
+System Pulls new Content	
+	The System goes through all Content Sources, looking for new content
+	
+System Processes new Content	
+	The System processes the new content and stores the information in a flat file or other storage system
+		
+System Builds new Mosaic	
+	The System builds the Mosaic based on the existing Content and saves the output
+
+------------------------------
+Future Development
+------------------------------
+
++ Use the MongoDB storage system to hold all of the data for the mosaic.  Each Mosaic can be its own document
++ Use pubsubhubbub technology to receive new Content as it is published, then rebuild the Mosaic every hour
+
+
+
+
+------------
+
+
+Feature: SysAdmin Gets Average Color
+
+The SysAdmin calculates the average color of each Image Tile
+And assigns it to an array with the average as the key and the image as the value.
+
+Scenario: Creating the Image Object
+	Given I have a Mosaic Instance
+	And an Array of Tile URLS
+	When the average_color is called
+	Then the system should create a MosaicImage Object
+	And call it an image
+	
+Scenario: average_color gets the average color of an image
+	Given I have a Mosaic Instance
+	And an Image Object
+	When the average_color is called
+	Then the system should create an Image Object
+	And should average the greens of the image
+	And should average the reds of the image
+	And should average the blues of the image
+	And should assign the average values to the Array as a Hash
+	
+	
+	
+	  
+  #match /gif|png|jpg|jpeg/}
