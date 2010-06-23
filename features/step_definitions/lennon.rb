@@ -10,16 +10,16 @@ def address
 	@address ||= "tmp/feed.xml"	
 end      
 
-def mosaic
-  @mosaic ||= Mosaic::Admin.new(image, address)
+def lennon
+  @lennon ||= Lennon::Mosaic.new(image, address)
 end
 
 def master
-	@master ||= Mosaic::Image.new(image)
+	@master ||= Lennon::Image.new(image)
 end
 
 def source
-	@source ||= Mosaic::Source.new(address)
+	@source ||= Lennon::Source.new(address)
 end
 
 #
@@ -58,8 +58,8 @@ end
 # When
 #
 
-When /^I build a new mosaic$/ do
-  mosaic
+When /^I build a new lennon$/ do
+  lennon
 end
 
 When /^I Build the Magick Master$/ do
@@ -81,13 +81,13 @@ end
 #
 
 Then /^Mosaic should have a Master Image$/ do
-	mosaic.master.should_not be nil
-	mosaic.master.should be_a_kind_of Mosaic::Image
+	lennon.master.should_not be nil
+	lennon.master.should be_a_kind_of Lennon::Image
 end
 
 Then /^Mosaic should have a Source of Images$/ do
-	mosaic.source.should_not be nil
-	mosaic.source.should be_a_kind_of Mosaic::Source
+	lennon.source.should_not be nil
+	lennon.source.should be_a_kind_of Lennon::Source
 end
 
 Then /^the Image should have a magick object$/ do
@@ -115,6 +115,6 @@ Then /^there should be more than one Image$/ do
   source.images.length.should be > 0
 end
 
-Then /^they should be MosaicImage Objects$/ do
-  source.images.each {|image| image.should be_a_kind_of Mosaic::Image}
+Then /^they should be Lennon::Image Objects$/ do
+  source.images.each {|image| image.should be_a_kind_of Lennon::Image}
 end

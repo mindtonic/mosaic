@@ -1,4 +1,4 @@
-module Mosaic
+module Lennon
 	class Source
 	
 		attr_accessor :address, :source_code, :images
@@ -13,7 +13,7 @@ module Mosaic
 		end
 	
 	  def pull_images
-    	(Hpricot::XML(@source_code)/"enclosure").each {|z| @images << Mosaic::Image.new(z.attributes['url'])}
+    	(Hpricot::XML(@source_code)/"enclosure").each {|z| @images << Lennon::Image.new(z.attributes['url'])}
     end
 	
 	end

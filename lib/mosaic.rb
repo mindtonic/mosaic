@@ -1,6 +1,0 @@
-require 'open-uri'
-require 'hpricot'
-require 'RMagick'
-require 'mosaic/admin'
-require 'mosaic/image'
-require 'mosaic/source'

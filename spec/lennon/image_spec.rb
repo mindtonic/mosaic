@@ -1,10 +1,10 @@
 require File.join(File.dirname(__FILE__), "/../spec_helper")
 
-module Mosaic
+module Lennon
   describe Image do
 
 		before(:each) do
-      @image = Mosaic::Image.new("tmp/ruby.jpg")
+      @image = Lennon::Image.new("tmp/ruby.jpg")
 		end
 		
     context "initializing" do 

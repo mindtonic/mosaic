@@ -1,10 +1,10 @@
 require File.join(File.dirname(__FILE__), "/../spec_helper")
 
-module Mosaic
+module Lennon
   describe Source do
 
 		before(:each) do
-      @source = Mosaic::Source.new("tmp/feed.xml")
+      @source = Lennon::Source.new("tmp/feed.xml")
 		end
 		
     context "initializing" do 
@@ -42,8 +42,8 @@ module Mosaic
     		@source.images.length.should be > 0
     	end
     	
-    	it "should be an array of MosaicImage Objects" do
-    		@source.images.each {|image| image.should be_a_kind_of Mosaic::Image}
+    	it "should be an array of LennonImage Objects" do
+    		@source.images.each {|image| image.should be_a_kind_of Lennon::Image}
     	end
     	
     	it "should have 60 images" do

@@ -1,12 +1,12 @@
 require File.join(File.dirname(__FILE__), "/../spec_helper")
 
-module Mosaic
-  describe Admin do
+module Lennon
+  describe Mosaic do
   
 		before(:each) do
       @image = "tmp/ruby.jpg"
       @source = "tmp/feed.xml"
-      @admin = Mosaic::Admin.new(@image, @source)
+      @admin = Lennon::Mosaic.new(@image, @source)
 		end
 		   
     context "initialization" do 
@@ -17,7 +17,7 @@ module Mosaic
 	      end
 	      
 	      it "should have the same value as @image" do
-	      	@admin.master.should be_a_kind_of Mosaic::Image
+	      	@admin.master.should be_a_kind_of Lennon::Image
 	      end
 	    end
 	    
@@ -26,17 +26,17 @@ module Mosaic
 	        @admin.source.should_not be nil
 	      end
 	      
-	      it "should be a Mosaic::Source object" do
-	      	@admin.source.should be_a_kind_of Mosaic::Source
+	      it "should be a Lennon::Source object" do
+	      	@admin.source.should be_a_kind_of Lennon::Source
 	      end
 	    end
 
 			context "coupled testing" do
-				it "Mosaic::Image.location should be the same as @image" do
+				it "Lennon::Image.location should be the same as @image" do
 					@admin.master.location.should == @image
 				end
 			
-				it "Mosaic::Source.address should be the same as @source" do
+				it "Lennon::Source.address should be the same as @source" do
 					@admin.source.address.should be == @source
 				end
 			end

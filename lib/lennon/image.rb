@@ -1,4 +1,4 @@
-module Mosaic 
+module Lennon 
   class Image
 		include Magick
 		

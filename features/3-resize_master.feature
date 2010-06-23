@@ -1,7 +1,7 @@
 Feature: SysAdmin Resizes Master
 
 The SysAdmin resizes the master image to
-the right size for the final mosaic image
+the right size for the final lennon image
 
 Scenario: resize_image! when the image is smaller than the maximums
 	Given I have an Image Instance
