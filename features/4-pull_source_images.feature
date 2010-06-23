@@ -7,6 +7,6 @@ Scenario: pull_images collects the lennon images
 	And I have a Feed of Images
 	When I Pull the Images
 	Then the Source should have Images
-	And they should be an Array
+	And they should be an Array of Images
 	And there should be more than one Image
 	And they should be Lennon::Image Objects

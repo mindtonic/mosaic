@@ -2,8 +2,8 @@
 # Helpers
 #
 
-def image
-	@image ||= "tmp/ruby.jpg"
+def location
+	@location ||= "tmp/ruby.jpg"
 end
 
 def address
@@ -11,15 +11,20 @@ def address
 end      
 
 def lennon
-  @lennon ||= Lennon::Mosaic.new(image, address)
+  @lennon ||= Lennon::Mosaic.new(location, address)
 end
 
-def master
-	@master ||= Lennon::Image.new(image)
+def image
+	@image ||= Lennon::Image.new(location)
 end
 
 def source
 	@source ||= Lennon::Source.new(address)
+end
+
+def check_pixel_value(pixel, value)
+	pixel[value].should_not be nil
+	pixel[value].should be >= 0
 end
 
 #
@@ -27,7 +32,7 @@ end
 #
 
 Given /^I have a Master Image$/ do
-	image
+	location
 end
 
 Given /^I have a Feed of Images$/ do
@@ -35,24 +40,34 @@ Given /^I have a Feed of Images$/ do
 end
 
 Given /^I have an Image Instance$/ do
-  master
+  image
 end
 
 Given /^I assign a Large Master Image$/ do
-  master.location = "tmp/large_ruby.jpg"
+  image.location = "tmp/large_ruby.jpg"
 end
 
 Given /^a Maximum Width$/ do
-  master.maximum_width.should_not be nil
+  image.maximum_width.should_not be nil
 end
 
 Given /^a Maximum Height$/ do
-  master.maximum_height.should_not be nil
+  image.maximum_height.should_not be nil
 end
 
 Given /^I have a Source Instance$/ do
   source
 end
+
+Given /^a canvas$/ do
+  image.canvas_factory
+end
+
+Given /^I have a small image size for easier testing$/ do
+	image.maximum_width = 10
+	image.maximum_height = 10
+end
+
 
 #
 # When
@@ -62,17 +77,25 @@ When /^I build a new lennon$/ do
   lennon
 end
 
-When /^I Build the Magick Master$/ do
-  master.magick_factory
+When /^I Download the Image$/ do
+  image.canvas_factory
 end
 
 When /^I Resize the Master$/ do
-  master.resize!
+  image.resize!
 end
 
 When /^I Pull the Images$/ do
 	source.source_code = File.open('tmp/feed.xml')
   source.pull_images
+end
+
+When /^I call calculate_average_color$/ do
+  image.calculate_average_color
+end
+
+When /^I create_pixel_array$/ do
+  image.create_pixel_array
 end
 
 
@@ -90,24 +113,24 @@ Then /^Mosaic should have a Source of Images$/ do
 	lennon.source.should be_a_kind_of Lennon::Source
 end
 
-Then /^the Image should have a magick object$/ do
-	master.magick.should_not be nil
-	master.magick.should be_a_kind_of Magick::ImageList
+Then /^the Image should have a canvas object$/ do
+	image.canvas.should_not be nil
+	image.canvas.should be_a_kind_of Magick::ImageList
 end
 
 Then /^the image should not be wider than the Maximum Width$/ do
-  master.magick[0].rows.should be <= master.maximum_width
+  image.canvas[0].rows.should be <= image.maximum_width
 end
 
 Then /^the image should not be taller than the Maximum Height$/ do
-  master.magick[0].columns.should be <= master.maximum_height
+  image.canvas[0].columns.should be <= image.maximum_height
 end
 
 Then /^the Source should have Images$/ do
   source.images.should_not be nil
 end
 
-Then /^they should be an Array$/ do
+Then /^they should be an Array of Images$/ do
   source.images.should be_a_kind_of Array
 end
 
@@ -117,4 +140,41 @@ end
 
 Then /^they should be Lennon::Image Objects$/ do
   source.images.each {|image| image.should be_a_kind_of Lennon::Image}
+end
+
+Then /^the Image should have a value for average_colors$/ do
+  image.average_colors.should_not be nil
+end
+
+Then /^it should be a Hash$/ do
+  image.average_colors.should be_a_kind_of Hash
+end
+
+Then /^the Hash should have a value for Red$/ do
+	check_pixel_value(image.average_colors, :red)
+end
+
+Then /^the Hash should have a value for Green$/ do
+  check_pixel_value(image.average_colors, :green)
+end
+
+Then /^the Hash should have a value for Blue$/ do
+  check_pixel_value(image.average_colors, :blue)
+end
+
+Then /^the Image should have a pixel_array$/ do
+  image.pixel_array.should_not be nil
+end
+
+Then /^they should be an Array of pixels$/ do
+	image.pixel_array.should be_a_kind_of Array
+end
+
+Then /^they should be an Array of average_color Hashes$/ do
+  for pixels in image.pixel_array
+  	pixels.should be_a_kind_of Hash
+  	check_pixel_value(pixels, :red)
+  	check_pixel_value(pixels, :green)
+  	check_pixel_value(pixels, :blue)
+  end
 end

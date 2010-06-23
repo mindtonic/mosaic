@@ -12,8 +12,8 @@ module Lennon
         @image.location.should_not be nil
       end
       
-      it "should not assign a value to the magick" do
-      	@image.magick.should be nil
+      it "should not assign a value to the canvas" do
+      	@image.canvas.should be nil
       end
       
 	    context "the maximum parameter" do
@@ -27,17 +27,14 @@ module Lennon
 	    end
     end
     
-    context "magick_factory" do
+    context "canvas_factory" do
 			before(:each) do
-		    @image.magick_factory
+		    @image.canvas_factory
 			end
 		
-      it "should assign a value to the magick" do
-      	@image.magick.should_not be nil
-      end
-      
-      it "should be an ImageList" do
-      	@image.magick.should be_a_kind_of Magick::ImageList
+      it "should assign a value to the canvas" do
+      	@image.canvas.should_not be nil
+      	@image.canvas.should be_a_kind_of Magick::ImageList
       end    
     end
     
@@ -46,12 +43,9 @@ module Lennon
     		@image.resize!
 			end
     	
-    	it "the image should not be wider than the maximum_width" do
-    		@image.magick[0].rows.should be <= @image.maximum_width
-    	end
-    	
-    	it "the image should not be taller than the maximum_height" do 
-    		@image.magick[0].columns.should be <= @image.maximum_width
+    	it "the image should fit the defined parameters" do
+    		@image.canvas[0].rows.should be <= @image.maximum_width
+    		@image.canvas[0].columns.should be <= @image.maximum_width
     	end
     end
     
@@ -61,14 +55,57 @@ module Lennon
     		@image.resize!
 			end  
     	
-    	it "the image should not be wider than the maximum_width" do
-    		@image.magick[0].rows.should be <= @image.maximum_width
-    	end
-    	
-    	it "the image should not be taller than the maximum_height" do 
-    		@image.magick[0].columns.should be <= @image.maximum_width
+    	it "the image should fit the defined parameters" do
+    		@image.canvas[0].rows.should be <= @image.maximum_width
+    		@image.canvas[0].columns.should be <= @image.maximum_height
     	end
     end
+    
+    context "calculate_average_color" do
+			before(:each) do
+				@image.maximum_width = 10
+				@image.maximum_height = 10
+    		@image.canvas_factory
+    		@image.calculate_average_color
+			end
+			
+      it "should assign a value to the average_colors" do
+      	@image.average_colors.should_not be nil
+      	@image.average_colors.should be_a_kind_of Hash
+      	check_pixel_value(@image.average_colors, :red)
+      	check_pixel_value(@image.average_colors, :green)
+      	check_pixel_value(@image.average_colors, :blue)
+      end     	
+    end
+
+    context "create_pixel_array" do
+			before(:each) do
+				@image.maximum_width = 10
+				@image.maximum_height = 10
+    		@image.canvas_factory
+    		@image.create_pixel_array
+			end
+			
+      it "should assign a value to the pixel_array" do
+      	@image.pixel_array.should_not be nil
+      	@image.pixel_array.should be_a_kind_of Array
+      	for pixel in @image.pixel_array
+      		pixel.should be_a_kind_of Hash
+      		check_pixel_value(pixel, :red)
+      		check_pixel_value(pixel, :green)
+      		check_pixel_value(pixel, :blue)
+      	end
+      end     	
+    end
+
+		#
+		# UTILITIES
+		#
+    
+		def check_pixel_value(pixel, value)
+			pixel[value].should_not be nil
+			pixel[value].should be >= 0
+		end
 
   end
 end
