@@ -1,37 +1,57 @@
+#
+# Helpers
+#
+
+def image
+	@image ||= "tmp/ruby.jpg"
+end
+
+def address
+	@address ||= "tmp/feed.xml"	
+end      
+
+def mosaic
+  @mosaic ||= Mosaic::Admin.new(image, address)
+end
+
+def master
+	@master ||= Mosaic::Image.new(image)
+end
+
+def source
+	@source ||= Mosaic::Source.new(address)
+end
 
 #
 # Given
 #
-
-Given /^I am a SysAdmin$/ do
-end
 
 Given /^I have a Master Image$/ do
 	image
 end
 
 Given /^I have a Feed of Images$/ do
-	source
+	address
 end
 
-Given /^I have a Mosaic Instance$/ do
-  mosaic
+Given /^I have an Image Instance$/ do
+  master
 end
 
 Given /^I assign a Large Master Image$/ do
-  mosaic.master = "tmp/large_ruby.jpg"
+  master.location = "tmp/large_ruby.jpg"
 end
 
 Given /^a Maximum Width$/ do
-  mosaic.maximum_width.should_not be nil
+  master.maximum_width.should_not be nil
 end
 
 Given /^a Maximum Height$/ do
-  mosaic.maximum_height.should_not be nil
+  master.maximum_height.should_not be nil
 end
 
-Given /^a Tile Source$/ do
-  mosaic.source.should_not be nil
+Given /^I have a Source Instance$/ do
+  source
 end
 
 #
@@ -42,17 +62,19 @@ When /^I build a new mosaic$/ do
   mosaic
 end
 
-When /^I assign a Master Image$/ do
-  mosaic.master = "tmp/ruby.jpg"
+When /^I Build the Magick Master$/ do
+  master.magick_factory
 end
 
 When /^I Resize the Master$/ do
-  mosaic.resize_master!
+  master.resize!
 end
 
-When /^I Pull the Tiles$/ do
-  mosaic.pull_tiles
+When /^I Pull the Images$/ do
+	source.source_code = File.open('tmp/feed.xml')
+  source.pull_images
 end
+
 
 #
 # Then
@@ -60,57 +82,39 @@ end
 
 Then /^Mosaic should have a Master Image$/ do
 	mosaic.master.should_not be nil
+	mosaic.master.should be_a_kind_of Mosaic::Image
 end
 
 Then /^Mosaic should have a Source of Images$/ do
 	mosaic.source.should_not be nil
+	mosaic.source.should be_a_kind_of Mosaic::Source
 end
 
-Then /^the system should have a Canvas assigned$/ do
-  mosaic.canvas.should_not be nil
+Then /^the Image should have a magick object$/ do
+	master.magick.should_not be nil
+	master.magick.should be_a_kind_of Magick::ImageList
 end
 
-Then /^the Canvas should not be wider than the Maximum Width$/ do
-  mosaic.canvas[0].rows.should be <= mosaic.maximum_width
+Then /^the image should not be wider than the Maximum Width$/ do
+  master.magick[0].rows.should be <= master.maximum_width
 end
 
-Then /^the Canvas should not be taller than the Maximum Height$/ do
-  mosaic.canvas[0].columns.should be <= mosaic.maximum_height
+Then /^the image should not be taller than the Maximum Height$/ do
+  master.magick[0].columns.should be <= master.maximum_height
 end
 
-Then /^the system should have Tiles$/ do
-  mosaic.tiles.should_not be nil
+Then /^the Source should have Images$/ do
+  source.images.should_not be nil
 end
 
 Then /^they should be an Array$/ do
-  mosaic.tiles.should be_a_kind_of Array
+  source.images.should be_a_kind_of Array
 end
 
-Then /^there should be more than one Tile$/ do
-  mosaic.tiles.length.should be > 0
+Then /^there should be more than one Image$/ do
+  source.images.length.should be > 0
 end
 
 Then /^they should be MosaicImage Objects$/ do
-  mosaic.tiles.each {|image| image.should be_a_kind_of Mosaic::Image}
-end
-
-#
-# Helpers
-#
-
-
-def image
-	@image ||= "tmp/ruby.jpg"
-end
-
-def source
-	@source ||= "tmp/feed.xml"	
-end      
-
-def mosaic
-  @mosaic ||= Mosaic::Admin.new(image, source)
-end
-
-def messages_should_include(message)
-  messenger.string.split("\n").should include(message)
+  source.images.each {|image| image.should be_a_kind_of Mosaic::Image}
 end
