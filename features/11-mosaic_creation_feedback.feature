@@ -1,7 +1,7 @@
-Feature: Create The Mosaic
+Feature: Mosaic Creation and Saving Feedback
 
-Use all of the resources collected so far and build the Mosaic image
-
+When creating and saving the mosaic, you should get feedback
+	
 Scenario: Build the Mosaic
 	Given I have a Master Image
 	And I have a small image size for easier testing
@@ -12,7 +12,7 @@ Scenario: Build the Mosaic
 	And I have Prepared the Source Images
 	When I Create the Mosaic
 	And I Save the Mosaic
-	Then mosaic.jpg should be saved to the filesystem
-
-
-
+	Then I should see "-- Building Mosaic"
+	And I should see "-- Mosaic Built"
+	And I should see "-- Saving Mosaic"
+	And I should see "-- Mosaic Saved"

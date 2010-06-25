@@ -1,5 +1,6 @@
 module Lennon
   class Mosaic
+  	include LennonReporting
 		include Magick
 		
   	attr_accessor :master, :source, :feedback, :canvas, :average_colors, :mosaic_images
@@ -7,7 +8,7 @@ module Lennon
     def initialize(master, source)
       @master = Lennon::Image.new(master)
       @source = Lennon::Source.new(source)
-      @feedback = Lennon::Feedback.new
+      @feedback = Lennon::Feedback.instance
       @feedback.puts "Welcome to the Lennon Mosaic!"
     end
     
@@ -25,6 +26,7 @@ module Lennon
     end
 
 		def create_mosaic
+			report "-- Building Mosaic"
 			tile_size = 40
 			@mosaic_images = ImageList.new
 			tile = Rectangle.new(tile_size,tile_size,0,0)
@@ -39,12 +41,15 @@ module Lennon
 			    #(photo_tiles.scene += 1) rescue photo_tiles.scene = 0    
 			    num = num.next
 			  end
-			end	
+			end
+			report "-- Mosaic Built"
 		end
 		
 		def save
+			report "-- Saving Mosaic"
 			mosaic = @mosaic_images.mosaic
 			mosaic.write('mosaic.jpg')
+			report "-- Mosaic Saved"
 		end
 	
 		def find_best_image(master_pixel)

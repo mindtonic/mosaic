@@ -4,7 +4,7 @@ module Lennon
   describe Source do
 
 		before(:each) do
-      @source = Lennon::Source.new(test_feed)
+      source
 		end
 		
     context "initializing" do 
@@ -22,11 +22,16 @@ module Lennon
     	it "should assign a value to source_code" do
     		@source.source_code.should_not be nil
     	end
+    	
+      it "should provide valuable feedback" do
+      	@mosaic.feedback.messages.should include("-- Opening Source")
+      	@mosaic.feedback.messages.should include("-- Source Opened")
+      end 
     end
     
     context "pull_images" do
 			before(:each) do
-				@source.source_code = File.open(test_feed)
+				@source.source_code = File.open(address)
     		@source.pull_images
 			end
 			
@@ -45,6 +50,11 @@ module Lennon
     	it "should be an array of LennonImage Objects" do
     		@source.images.each {|image| image.should be_a_kind_of Lennon::Image}
     	end
+    	
+      it "should provide valuable feedback" do
+      	@mosaic.feedback.messages.should include("-- Downloading Image")
+      	@mosaic.feedback.messages.should include("-- Image Downloaded")
+      end 
     end
 	
 	end

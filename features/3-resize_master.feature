@@ -5,7 +5,7 @@ the right size for the final lennon image
 
 Scenario: resize_image! when the image is smaller than the maximums
 	Given I have an Image Instance
-	And I have a Master Image
+	And I have a Small Master Image
 	And a Maximum Width
 	And a Maximum Height
 	When I Resize the Master

@@ -4,7 +4,13 @@ module Lennon
   describe Feedback do
 
 		before(:each) do
-      @feedback = Lennon::Feedback.new
+      @feedback = Lennon::Feedback.instance
+		end
+		
+		context "singleton" do
+			it "should only have one instance" do
+				@feedback.should be == Lennon::Feedback.instance
+			end
 		end
 		
 		context "messages" do

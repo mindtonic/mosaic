@@ -80,13 +80,10 @@ Feedback and Operation will be to add genuine feedback to the script so that we 
 10. System gives feedback on the source images
 	When processing the Source Images, the system gives feedback and progress reports
 	
-11. System gives feedback while creating the Mosaic
-	When creating the mosaic, the system gives feedback and progress reports
+11. System gives feedback while creating and saving the Mosaic
+	When creating and saving the mosaic, the system gives feedback and progress reports
 	
-12. System gives feedback when the Mosaic is saved
-	When the mosaic is saved, the system gives feedback and progress reports
-	
-13. System runs the entire process from the command line start
+12. System runs the entire process from the command line start
 	When the SysAdmin enters the start command, a Mosaic is created
 
 

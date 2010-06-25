@@ -4,7 +4,7 @@ module Lennon
   describe Image do
 
 		before(:each) do
-      @image = Lennon::Image.new(test_image)
+      image
 		end
 		
     context "initializing" do 
@@ -30,16 +30,26 @@ module Lennon
       	@image.canvas.should_not be nil
       	@image.canvas.should be_a_kind_of Magick::ImageList
       end    
+      
+      it "should provide valuable feedback" do
+      	@mosaic.feedback.messages.should include("-- Downloading Image")
+      	@mosaic.feedback.messages.should include("-- Image Downloaded")
+      end  
     end
     
     context "resizing the image with a small image" do
 			before(:each) do
+				@image.location = "tmp/john_lennon.jpg"
     		@image.resize!
 			end
     	
     	it "the image should fit the defined parameters" do
     		image_within_size_boundaries(@image)
     	end
+    	
+      it "should provide valuable feedback" do
+      	@mosaic.feedback.messages.should include("-- Image does not need to be resized")
+      end 
     end
     
     context "resizing the image with a large image" do
@@ -51,6 +61,11 @@ module Lennon
     	it "the image should fit the defined parameters" do
     		image_within_size_boundaries(@image)
     	end
+    	
+      it "should provide valuable feedback" do
+      	@mosaic.feedback.messages.should include("-- Resizing Image")
+      	@mosaic.feedback.messages.should include("-- Image Resized")
+      end 
     end
     
     context "calculate_average_color" do
@@ -63,6 +78,11 @@ module Lennon
       	@image.average_color.should_not be nil
       	@image.average_color.should be_a_kind_of Hash
       	check_all_pixels(@image.average_color)
+      end
+      
+      it "should provide valuable feedback" do
+      	@mosaic.feedback.messages.should include("-- -- Calculating Average Color")
+      	@mosaic.feedback.messages.should include("-- -- Average Color Calculated")
       end     	
     end
 
@@ -79,6 +99,11 @@ module Lennon
       		pixel.should be_a_kind_of Hash
       		check_all_pixels(pixel)
       	end
+      end
+      
+      it "should provide valuable feedback" do
+      	@mosaic.feedback.messages.should include("-- Collecting Image Pixels")
+      	@mosaic.feedback.messages.should include("-- Image Pixels Collected")
       end     	
     end
 

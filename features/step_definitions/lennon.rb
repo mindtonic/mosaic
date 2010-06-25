@@ -39,6 +39,10 @@ Given /^I have a Master Image$/ do
 	location
 end
 
+Given /^I have a Small Master Image$/ do
+  @location = "tmp/john_lennon.jpg"
+end
+
 Given /^I have a Feed of Images$/ do
 	address
 end
@@ -204,7 +208,7 @@ Then /^mosaic\.jpg should be saved to the filesystem$/ do
   File.exist?("mosaic.jpg").should be true
 end
 
-Then /^Then I should see "([^"]*)"$/ do |message| #"
+Then /^I should see "([^"]*)"$/ do |message| #"
   feedback.messages.should include(message)
 end
 

@@ -2,22 +2,32 @@ $: << File.join(File.dirname(__FILE__), "/../lib")
 require 'spec'
 require 'lennon'
 
-def test_image
-	"tmp/ruby.jpg"
+def location
+	@location ||= "tmp/ruby.jpg"
 end
 
-def test_feed
-	"tmp/feed.xml"
+def address
+	@address ||= "tmp/feed.xml"	
 end
 
-def build_mosaic
-  @image ||= test_image
-  @source ||= test_feed
-  @mosaic ||= Lennon::Mosaic.new(@image, @source)  
+def mosaic
+	@mosaic ||= Lennon::Mosaic.new(location, address)
+end
+
+def image
+	@image ||= mosaic.master
+end
+
+def source
+	@source ||= mosaic.source
+end
+
+def feedback 
+	@feedback ||= mosaic.feedback
 end
 
 def build_full_mosaic
-	build_mosaic
+	mosaic
 	@mosaic.master.maximum_width = 5
 	@mosaic.master.maximum_height = 5
 	@mosaic.prepare_the_master

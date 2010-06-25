@@ -1,5 +1,6 @@
 module Lennon 
   class Image
+  	include LennonReporting
 		include Magick
 		
 		attr_accessor :location, :canvas, :maximum_width, :maximum_height, :average_color, :pixel_array
@@ -11,19 +12,26 @@ module Lennon
   	end
   	
   	def canvas_factory
-			@canvas ||= Magick::ImageList.new(@location)  	
+  		report "-- Downloading Image"
+			@canvas ||= Magick::ImageList.new(@location)
+			report "-- Image Downloaded"
   	end
   	
     def resize!
     	canvas_factory
     	if @canvas[0].rows > @maximum_width or @canvas[0].columns > @maximum_height
+    		report "-- Resizing Image"
     		@canvas.change_geometry!("#{@maximum_width}x#{@maximum_height}") {|cols, rows, img| img.resize!(cols, rows)}
+    		report "-- Image Resized"
+    	else
+    		report "-- Image does not need to be resized"
     	end
     end
   
   	def calculate_average_color
   		resize!
   	
+  		report "-- -- Calculating Average Color"
 		  red, green, blue = 0, 0, 0
 		  canvas.each_pixel { |pixel, c, r|
 		    red += pixel.red
@@ -37,15 +45,17 @@ module Lennon
   			:green => green/num_pixels,
   			:blue => blue/num_pixels
   		}
+  		report "-- -- Average Color Calculated"
   	end
   	
 		def create_pixel_array
 			resize!
 			@pixel_array = []
+			report "-- Collecting Image Pixels"
 			@canvas.each_pixel do |pixel, c, r|  
 			  @pixel_array << {:red => pixel.red, :green => pixel.green, :blue => pixel.blue}  
 			end
-		end
-	
+			report "-- Image Pixels Collected"
+		end	
  	end
 end

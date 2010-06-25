@@ -6,4 +6,4 @@ Scenario: start lennon
 	Given I have a Master Image
 	And I have a Feed of Images
 	When I build a new lennon
-	Then Then I should see "Welcome to the Lennon Mosaic!"
+	Then I should see "Welcome to the Lennon Mosaic!"
