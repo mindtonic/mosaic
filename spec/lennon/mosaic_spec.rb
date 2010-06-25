@@ -59,10 +59,6 @@ module Lennon
     		@best_image = @mosaic.find_best_image(@master_pixel)
     		@mosaic.feedback.no_print_to_console!
     	end
-    	
-			it "Should find the value for the first master pixel" do
-				@master_pixel.should be == {:red=>255, :green=>255, :blue=>255}
-			end
 			
 			it "Best Image should be a Lennon::Image" do
 				@best_image.should be_a_kind_of Lennon::Image
@@ -92,12 +88,7 @@ module Lennon
     	it "Should return an RBG value for @image_pixel_color" do
     		@image_pixel_color.should be_a_kind_of Hash
     		check_all_pixels(@master_pixel_color)
-    	end
-    	
-    	it "Should return a calculated value of the color difference" do
-    		@mosaic.color_difference(@master_pixel_color, @image_pixel_color).to_i.should be == 314
-    	end
-    	
+    	end    	
 		end
     
     context "create_mosaic" do

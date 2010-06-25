@@ -20,6 +20,7 @@ module Lennon
 			create_mosaic
 			save
 			report "....... All Done! ......."
+			report lyrics
     end
     
     def prepare_the_master

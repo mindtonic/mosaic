@@ -3,7 +3,7 @@ require 'spec'
 require 'lennon'
 
 def location
-	@location ||= "tmp/ruby.jpg"
+	@location ||= "tmp/Lennon.png"
 end
 
 def address
