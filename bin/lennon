@@ -4,6 +4,7 @@ require 'lennon'
 
 master = ARGV[0]
 source = ARGV[1]
+output = ARGV[2]
 
-lennon = Lennon::Mosaic.new(master, source)
+lennon = Lennon::Mosaic.new(master, source, output)
 lennon.imagine!
