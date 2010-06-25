@@ -4,7 +4,7 @@ module Lennon
   describe Image do
 
 		before(:each) do
-      @image = Lennon::Image.new("tmp/ruby.jpg")
+      @image = Lennon::Image.new(test_image)
 		end
 		
     context "initializing" do 
@@ -16,14 +16,8 @@ module Lennon
       	@image.canvas.should be nil
       end
       
-	    context "the maximum parameter" do
-	    	it "maximum_width should be assigned" do
-	    		@image.maximum_width.should_not be nil
-	    	end
-	    	
-	    	it "maximum_height should be assigned" do
-	    		@image.maximum_height.should_not be nil
-	    	end
+	    it "should have maximum parameters" do
+	    	image_boundaries_required(@image)
 	    end
     end
     
@@ -44,8 +38,7 @@ module Lennon
 			end
     	
     	it "the image should fit the defined parameters" do
-    		@image.canvas[0].rows.should be <= @image.maximum_width
-    		@image.canvas[0].columns.should be <= @image.maximum_width
+    		image_within_size_boundaries(@image)
     	end
     end
     
@@ -56,33 +49,26 @@ module Lennon
 			end  
     	
     	it "the image should fit the defined parameters" do
-    		@image.canvas[0].rows.should be <= @image.maximum_width
-    		@image.canvas[0].columns.should be <= @image.maximum_height
+    		image_within_size_boundaries(@image)
     	end
     end
     
     context "calculate_average_color" do
 			before(:each) do
-				@image.maximum_width = 10
-				@image.maximum_height = 10
-    		@image.canvas_factory
+				make_testing_image
     		@image.calculate_average_color
 			end
 			
       it "should assign a value to the average_colors" do
-      	@image.average_colors.should_not be nil
-      	@image.average_colors.should be_a_kind_of Hash
-      	check_pixel_value(@image.average_colors, :red)
-      	check_pixel_value(@image.average_colors, :green)
-      	check_pixel_value(@image.average_colors, :blue)
+      	@image.average_color.should_not be nil
+      	@image.average_color.should be_a_kind_of Hash
+      	check_all_pixels(@image.average_color)
       end     	
     end
 
     context "create_pixel_array" do
 			before(:each) do
-				@image.maximum_width = 10
-				@image.maximum_height = 10
-    		@image.canvas_factory
+				make_testing_image
     		@image.create_pixel_array
 			end
 			
@@ -91,21 +77,10 @@ module Lennon
       	@image.pixel_array.should be_a_kind_of Array
       	for pixel in @image.pixel_array
       		pixel.should be_a_kind_of Hash
-      		check_pixel_value(pixel, :red)
-      		check_pixel_value(pixel, :green)
-      		check_pixel_value(pixel, :blue)
+      		check_all_pixels(pixel)
       	end
       end     	
     end
-
-		#
-		# UTILITIES
-		#
-    
-		def check_pixel_value(pixel, value)
-			pixel[value].should_not be nil
-			pixel[value].should be >= 0
-		end
 
   end
 end

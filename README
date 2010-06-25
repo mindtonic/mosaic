@@ -23,17 +23,17 @@ Other:
 Iteration Descriptions
 ------------------------------
 
-Step One: will mostly be run by me at the command line to get the project off the ground, make sure the actual image manipulation parts are working and compiling the mosaic properly and the outputted image is what we want it to be.  This section will be tested using a single image feed from somewhere, probably just a general Creative Allies feed as that will force me to implement image feeds from our end.
+Step One: will mostly be run by me at the command line to get the project off the ground, make sure the actual image manipulation parts are working and compiling the mosaic properly and the outputted image is what we want it to be.  This section will be tested using a single image feed from photobucket.
 
-Step Two: will then be to add the ability to record and save the information on the images, save the master image, and generate the new mosaic from the existing data.  This step is expected to speed up the image creation process.
+Step Two: will be to add genuine feedback to the script so that we can see what is happening as we go along.  This process takes a considerable amount of time, so good user communication will be key.
 
-Step Three: will be adding multiple Image feed sources to the Mosaic engine.  At this point we will add YouTube in addition to the Creative Allies feed.
+Step Three: will then be to add the ability to record and save the information on the images, save the master image, and generate the new mosaic from the existing data.  This step is expected to speed up the image creation process.
 
-Step Four: will be to enhance the presentation of the mosaic into both a standard output image and a javascript driven interactive table which will (hopefully) look feel and work like the YouTube flash based one.
+Step Four: will be adding multiple Image feed sources to the Mosaic engine.  At this point we will add the Creative Allies feed and the YouTube feed.
 
-Step Five: will be to move all of this into the Creative Allies application and create the ability for any admin (You, Josh, etc.) to manage the image sources and images used to create the mosaic.
+Step Five: will be to enhance the presentation of the mosaic into both a standard output image and a javascript driven interactive table which will (hopefully) look feel and work like the YouTube flash based one.
 
-Step Six: will be to sit back, smile, drink some tequila and have a big party!  Be sure to invite Yoko
+Step Six: will be to move all of this into the Creative Allies application and create the ability for any admin (You, Josh, etc.) to manage the image sources and images used to create the mosaic.
 
 
 ------------------------------

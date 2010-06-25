@@ -2,7 +2,7 @@ module Lennon
   class Image
 		include Magick
 		
-		attr_accessor :location, :canvas, :maximum_width, :maximum_height, :average_colors, :pixel_array
+		attr_accessor :location, :canvas, :maximum_width, :maximum_height, :average_color, :pixel_array
   
   	def initialize(location)
   		@location = location
@@ -32,7 +32,7 @@ module Lennon
 		  }
 		  num_pixels = canvas.bounding_box.width * canvas.bounding_box.height
 		  
-		  @average_colors = {
+		  @average_color = {
   			:red => red/num_pixels,
   			:green => green/num_pixels,
   			:blue => blue/num_pixels

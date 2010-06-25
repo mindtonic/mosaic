@@ -15,11 +15,11 @@ def lennon
 end
 
 def image
-	@image ||= Lennon::Image.new(location)
+	@image ||= lennon.master
 end
 
 def source
-	@source ||= Lennon::Source.new(address)
+	@source ||= lennon.source
 end
 
 def check_pixel_value(pixel, value)
@@ -68,6 +68,15 @@ Given /^I have a small image size for easier testing$/ do
 	image.maximum_height = 10
 end
 
+Given /^I have prepared the Master$/ do
+  lennon.prepare_the_master
+end
+
+Given /^I have Prepared the Source Images$/ do
+  lennon.prepare_the_source_images
+end
+
+
 
 #
 # When
@@ -96,6 +105,14 @@ end
 
 When /^I create_pixel_array$/ do
   image.create_pixel_array
+end
+
+When /^I Create the Mosaic$/ do
+  lennon.create_mosaic
+end
+
+When /^I Save the Mosaic$/ do
+  lennon.save
 end
 
 
@@ -143,23 +160,23 @@ Then /^they should be Lennon::Image Objects$/ do
 end
 
 Then /^the Image should have a value for average_colors$/ do
-  image.average_colors.should_not be nil
+  image.average_color.should_not be nil
 end
 
 Then /^it should be a Hash$/ do
-  image.average_colors.should be_a_kind_of Hash
+  image.average_color.should be_a_kind_of Hash
 end
 
 Then /^the Hash should have a value for Red$/ do
-	check_pixel_value(image.average_colors, :red)
+	check_pixel_value(image.average_color, :red)
 end
 
 Then /^the Hash should have a value for Green$/ do
-  check_pixel_value(image.average_colors, :green)
+  check_pixel_value(image.average_color, :green)
 end
 
 Then /^the Hash should have a value for Blue$/ do
-  check_pixel_value(image.average_colors, :blue)
+  check_pixel_value(image.average_color, :blue)
 end
 
 Then /^the Image should have a pixel_array$/ do
@@ -177,4 +194,8 @@ Then /^they should be an Array of average_color Hashes$/ do
   	check_pixel_value(pixels, :green)
   	check_pixel_value(pixels, :blue)
   end
+end
+
+Then /^mosaic\.jpg should be saved to the filesystem$/ do
+  File.exist?("mosaic.jpg").should be true
 end

@@ -4,7 +4,7 @@ module Lennon
   describe Source do
 
 		before(:each) do
-      @source = Lennon::Source.new("tmp/feed.xml")
+      @source = Lennon::Source.new(test_feed)
 		end
 		
     context "initializing" do 
@@ -26,7 +26,7 @@ module Lennon
     
     context "pull_images" do
 			before(:each) do
-				@source.source_code = File.open('tmp/feed.xml')
+				@source.source_code = File.open(test_feed)
     		@source.pull_images
 			end
 			
@@ -38,17 +38,13 @@ module Lennon
     		@source.images.should be_a_kind_of Array
     	end
     	
-    	it "should have more than one tile" do
+    	it "should have more than one image" do
     		@source.images.length.should be > 0
     	end
     	
     	it "should be an array of LennonImage Objects" do
     		@source.images.each {|image| image.should be_a_kind_of Lennon::Image}
     	end
-    	
-    	it "should have 60 images" do
-    		@source.images.length.should be == 100
-    	end 
     end
 	
 	end

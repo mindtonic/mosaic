@@ -9,10 +9,11 @@ module Lennon
 		end
 		
 		def open_sesame
-			@source_code = open(@address)
+			@source_code ||= open(@address)
 		end
 	
 	  def pull_images
+	  	open_sesame
     	(Hpricot::XML(@source_code)/"enclosure").each {|z| @images << Lennon::Image.new(z.attributes['url'])}
     end
 	
