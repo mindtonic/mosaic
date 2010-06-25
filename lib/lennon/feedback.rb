@@ -7,6 +7,7 @@ module Lennon
 		attr_accessor :messages, :print_to_console
 		
 		@print_to_console = false
+		@@override = true
 	
 		def messages
 			@messages ||= []
@@ -18,7 +19,7 @@ module Lennon
 		end
 		
 		def output(message)
-			STDOUT.puts message if print_to_console
+			STDOUT.puts message if print_to_console and !@@override
 		end
 	
 		def print_to_console

@@ -31,13 +31,18 @@ module Lennon
     	@source.pull_images
     end
     
+    # This should be moved to the Source class eventually
     def prepare_the_source_images
     	collect_the_source_images
     	num = 1
     	@source.images.each do |image|
-    		report "Calculating Color #{num} of #{@source.images.length}" 
-    		image.calculate_average_color
-    		num += 1
+    		begin	
+	    		report "Calculating Color #{num} of #{@source.images.length}" 
+	    		image.calculate_average_color
+	    		num += 1
+	    	rescue Magick::ImageMagickError
+	    		@source.images.delete(image)
+	    	end
     	end
     end
 
@@ -78,10 +83,6 @@ module Lennon
 		  red, green, blue = rgb1[:red] - rgb2[:red], rgb1[:green] - rgb2[:green], rgb1[:blue] - rgb2[:blue]
 		  Math.sqrt((red * red) + (green * green) + (blue * blue))
 		end
-		
-# 		def print_to_console
-# 			@feedback.print_to_console!
-# 		end
   end
 end
 

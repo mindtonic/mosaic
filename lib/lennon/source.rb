@@ -20,6 +20,6 @@ module Lennon
     	(Hpricot::XML(@source_code)/"enclosure").each do |z|
     		@images << Lennon::Image.new(z.attributes['url'])
     	end
-    end	
+    end
 	end
 end

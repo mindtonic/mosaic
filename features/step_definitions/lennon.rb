@@ -88,6 +88,10 @@ Given /^I have Prepared the Source Images$/ do
   lennon.feedback.no_print_to_console!
 end
 
+Given /^I have a Feed of Images with some Bad Entries$/ do
+  @address = "tmp/feed_bad.xml"
+end
+
 
 
 #
@@ -225,5 +229,10 @@ end
 
 Then /^I should see "([^"]*)"$/ do |message| #"
   feedback.messages.should include(message)
+end
+
+Then /^no errors should be raised$/ do
+	source.source_code = File.open('tmp/feed_bad.xml')
+  lambda {source.pull_images}.should_not raise_error
 end
 

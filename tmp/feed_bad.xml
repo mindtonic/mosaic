@@ -1,0 +1,43 @@
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/"> 
+    <channel>
+        <item> 
+            <enclosure type="image/jpg" url="tmp/images/1.jpg" /> 
+        </item> 
+        <item> 
+            <enclosure type="image/jpg" url="tmp/images/2.jpg" /> 
+        </item>  
+        <item> 
+            <enclosure type="image/jpg" url="tmp/images/30675.jpg" /> 
+        </item>  
+        <item> 
+            <enclosure type="image/jpg" url="tmp/images/4.jpg" /> 
+        </item>  
+        <item> 
+            <enclosure type="image/jpg" url="tmp/images/6.jpg" /> 
+        </item>  
+        <item> 
+            <enclosure type="image/jpg" url="tmp/images/7.jpg" /> 
+        </item>  
+        <item> 
+            <enclosure type="image/jpg" url="tmp/images/8.jpg" /> 
+        </item>  
+        <item> 
+            <enclosure type="image/jpg" url="tmp/images/9.jpg" /> 
+        </item>  
+        <item> 
+            <enclosure type="image/jpg" url="tmp/images/1004753.jpg" /> 
+        </item>  
+        <item> 
+            <enclosure type="image/jpg" url="tmp/images/11.jpg" /> 
+        </item>  
+        <item> 
+            <enclosure type="image/jpg" url="tmp/images/12.jpg" /> 
+        </item>  
+        <item> 
+            <enclosure type="image/jpg" url="tmp/images/13.jpg" /> 
+        </item>  
+        <item> 
+            <enclosure type="image/jpg" url="tmp/images/14.jpg" /> 
+        </item>  
+    </channel> 
+</rss>

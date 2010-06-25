@@ -54,6 +54,5 @@ module Lennon
       	@mosaic.feedback.messages.should include("-- Downloading Image")
       end 
     end
-	
 	end
 end
