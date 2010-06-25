@@ -2,11 +2,12 @@ module Lennon
   class Mosaic
 		include Magick
 		
-  	attr_accessor :master, :source, :canvas, :average_colors, :mosaic_images
+  	attr_accessor :master, :source, :feedback, :canvas, :average_colors, :mosaic_images
   
     def initialize(master, source)
       @master = Lennon::Image.new(master)
       @source = Lennon::Source.new(source)
+      @feedback = Lennon::Feedback.new
     end
     
     def prepare_the_master
