@@ -2,3 +2,8 @@
 $LOAD_PATH.push File.join(File.dirname(__FILE__), "/../lib") 
 require 'lennon'
 
+master = ARGV[0]
+source = ARGV[1]
+
+lennon = Lennon::Mosaic.new(master, source)
+lennon.imagine!

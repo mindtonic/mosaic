@@ -30,8 +30,10 @@ def build_full_mosaic
 	mosaic
 	@mosaic.master.maximum_width = 5
 	@mosaic.master.maximum_height = 5
+	@mosaic.feedback.print_to_console!
 	@mosaic.prepare_the_master
 	@mosaic.prepare_the_source_images
+	@mosaic.feedback.no_print_to_console!
 end
 
 def image_boundaries_required(image)
@@ -59,4 +61,8 @@ def make_testing_image
 	@image.maximum_width = 10
 	@image.maximum_height = 10
 	@image.canvas_factory		
+end
+
+def remove_mosaic_file
+	File.unlink("mosaic.jpg") if File.exist?("mosaic.jpg")
 end

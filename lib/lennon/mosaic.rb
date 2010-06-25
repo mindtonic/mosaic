@@ -5,11 +5,21 @@ module Lennon
 		
   	attr_accessor :master, :source, :feedback, :canvas, :average_colors, :mosaic_images
   
-    def initialize(master, source)
+    def initialize(master, source, output = false)
       @master = Lennon::Image.new(master)
       @source = Lennon::Source.new(source)
       @feedback = Lennon::Feedback.instance
       @feedback.puts "Welcome to the Lennon Mosaic!"
+      @feedback.print_to_console! if output
+    end
+    
+    def imagine!
+    	report "....... Imagining A Mosaic! ......."
+			prepare_the_master
+			prepare_the_source_images
+			create_mosaic
+			save
+			report "....... All Done! ......."
     end
     
     def prepare_the_master
@@ -22,7 +32,12 @@ module Lennon
     
     def prepare_the_source_images
     	collect_the_source_images
-    	@source.images.each {|image| image.calculate_average_color}
+    	num = 1
+    	@source.images.each do |image|
+    		report "Calculating Color #{num} of #{@source.images.length}" 
+    		image.calculate_average_color
+    		num += 1
+    	end
     end
 
 		def create_mosaic
@@ -34,6 +49,7 @@ module Lennon
 			num = 0
 			@master.canvas.bounding_box.height.times do |row|
 			  @master.canvas.bounding_box.width.times do |col|
+			  	report "-- Examining Pixel #{num + 1} of #{@master.pixel_array.length}"
 			    @mosaic_images << find_best_image(@master.pixel_array[num]).canvas.crop_resized(tile_size,tile_size)
 			    tile.x = col * @mosaic_images.columns
 			    tile.y = row * @mosaic_images.rows
@@ -49,7 +65,6 @@ module Lennon
 			report "-- Saving Mosaic"
 			mosaic = @mosaic_images.mosaic
 			mosaic.write('mosaic.jpg')
-			report "-- Mosaic Saved"
 		end
 	
 		def find_best_image(master_pixel)
@@ -62,6 +77,10 @@ module Lennon
 		  red, green, blue = rgb1[:red] - rgb2[:red], rgb1[:green] - rgb2[:green], rgb1[:blue] - rgb2[:blue]
 		  Math.sqrt((red * red) + (green * green) + (blue * blue))
 		end
+		
+# 		def print_to_console
+# 			@feedback.print_to_console!
+# 		end
   end
 end
 

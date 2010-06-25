@@ -12,7 +12,6 @@ module Lennon
 		def open_sesame
       report "-- Opening Source"
 			@source_code ||= open(@address)
-			report "-- Source Opened"
 		end
 	
 	  def pull_images
@@ -21,7 +20,6 @@ module Lennon
     	(Hpricot::XML(@source_code)/"enclosure").each do |z|
     		@images << Lennon::Image.new(z.attributes['url'])
     	end
-    	report "-- Source Images Downloaded"
     end	
 	end
 end

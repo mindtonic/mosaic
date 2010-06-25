@@ -13,6 +13,4 @@ Scenario: Build the Mosaic
 	When I Create the Mosaic
 	And I Save the Mosaic
 	Then I should see "-- Building Mosaic"
-	And I should see "-- Mosaic Built"
 	And I should see "-- Saving Mosaic"
-	And I should see "-- Mosaic Saved"

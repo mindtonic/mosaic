@@ -77,11 +77,15 @@ Given /^I have a small image size for easier testing$/ do
 end
 
 Given /^I have prepared the Master$/ do
+	lennon.feedback.print_to_console!
   lennon.prepare_the_master
+  lennon.feedback.no_print_to_console!
 end
 
 Given /^I have Prepared the Source Images$/ do
+	lennon.feedback.print_to_console!
   lennon.prepare_the_source_images
+  lennon.feedback.no_print_to_console!
 end
 
 
@@ -116,11 +120,22 @@ When /^I create_pixel_array$/ do
 end
 
 When /^I Create the Mosaic$/ do
+	lennon.feedback.print_to_console!
   lennon.create_mosaic
+  lennon.feedback.no_print_to_console!
 end
 
 When /^I Save the Mosaic$/ do
   lennon.save
+end
+
+When /^I Run the program from the command line$/ do
+	mosaic = Lennon::Mosaic.new(location, address)
+	mosaic.master.maximum_width = 5
+	mosaic.master.maximum_height = 5
+	mosaic.feedback.print_to_console!
+	mosaic.imagine!
+	mosaic.feedback.no_print_to_console!
 end
 
 

@@ -33,7 +33,6 @@ module Lennon
       
       it "should provide valuable feedback" do
       	@mosaic.feedback.messages.should include("-- Downloading Image")
-      	@mosaic.feedback.messages.should include("-- Image Downloaded")
       end  
     end
     
@@ -64,7 +63,6 @@ module Lennon
     	
       it "should provide valuable feedback" do
       	@mosaic.feedback.messages.should include("-- Resizing Image")
-      	@mosaic.feedback.messages.should include("-- Image Resized")
       end 
     end
     
@@ -81,8 +79,7 @@ module Lennon
       end
       
       it "should provide valuable feedback" do
-      	@mosaic.feedback.messages.should include("-- -- Calculating Average Color")
-      	@mosaic.feedback.messages.should include("-- -- Average Color Calculated")
+      	@mosaic.feedback.messages.should include("-- Calculating Average Color")
       end     	
     end
 
@@ -103,7 +100,6 @@ module Lennon
       
       it "should provide valuable feedback" do
       	@mosaic.feedback.messages.should include("-- Collecting Image Pixels")
-      	@mosaic.feedback.messages.should include("-- Image Pixels Collected")
       end     	
     end
 

@@ -25,7 +25,6 @@ module Lennon
     	
       it "should provide valuable feedback" do
       	@mosaic.feedback.messages.should include("-- Opening Source")
-      	@mosaic.feedback.messages.should include("-- Source Opened")
       end 
     end
     
@@ -53,7 +52,6 @@ module Lennon
     	
       it "should provide valuable feedback" do
       	@mosaic.feedback.messages.should include("-- Downloading Image")
-      	@mosaic.feedback.messages.should include("-- Image Downloaded")
       end 
     end
 	

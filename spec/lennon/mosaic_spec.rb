@@ -49,15 +49,15 @@ module Lennon
 			end
     end
 
-# TESTS TOTALLY PASS, JUST TAKE A LONG TIME, THAT'S WHY THEY ARE COMMENTED OUT
-#
     context "find_best_image" do
     	before(:all) do
     		build_full_mosaic
     		@master = @mosaic.master
     		@images = @mosaic.source.images
     		@master_pixel = @master.pixel_array.first
+    		@mosaic.feedback.print_to_console!
     		@best_image = @mosaic.find_best_image(@master_pixel)
+    		@mosaic.feedback.no_print_to_console!
     	end
     	
 			it "Should find the value for the first master pixel" do
@@ -103,7 +103,9 @@ module Lennon
     context "create_mosaic" do
     	before(:all) do
     		build_full_mosaic
+    		@mosaic.feedback.print_to_console!
     		@mosaic.create_mosaic
+    		@mosaic.feedback.no_print_to_console!
     	end
     	
 			it "Should set a value to mosaic_images" do
@@ -122,10 +124,12 @@ module Lennon
     
     context "save_mosaic" do
     	before(:all) do
-    		File.unlink("mosaic.jpg") if File.exist?("mosaic.jpg")
+    		remove_mosaic_file
 				build_full_mosaic
+				@mosaic.feedback.print_to_console!
     		@mosaic.create_mosaic
     		@mosaic.save
+    		@mosaic.feedback.no_print_to_console!
     	end
     	
 			it "Should save a file called mosaic.jpg" do
@@ -134,8 +138,28 @@ module Lennon
 			
       it "should provide valuable feedback" do
       	@mosaic.feedback.messages.should include("-- Saving Mosaic")
-      	@mosaic.feedback.messages.should include("-- Mosaic Saved")
       end   
+    end
+    
+    context "imagine!" do
+    	before(:all) do
+    		remove_mosaic_file
+				@mosaic = Lennon::Mosaic.new(location, address)
+				@mosaic.master.maximum_width = 5
+				@mosaic.master.maximum_height = 5
+				@mosaic.feedback.print_to_console!
+				@mosaic.imagine!
+				@mosaic.feedback.no_print_to_console!
+    	end
+    	
+			it "Should save a file called mosaic.jpg" do
+				File.exist?("mosaic.jpg").should be true
+			end
+			
+      it "should provide valuable feedback" do
+      	@mosaic.feedback.messages.should include("....... Imagining A Mosaic! .......")
+      	@mosaic.feedback.messages.should include("....... All Done! .......")
+      end
     end
      
   end

@@ -37,6 +37,22 @@ module Lennon
 				@feedback.messages.should include("Testing the messages queue")
 			end
 		end
+		
+		context "print_to_console" do
+			it "Should start out as false" do
+				@feedback.print_to_console.should be == false
+			end
+			
+			it "Should become true when triggered" do
+				@feedback.print_to_console!
+				@feedback.print_to_console.should be == true
+			end
+			
+			it "Should become false when triggered" do
+				@feedback.no_print_to_console!
+				@feedback.print_to_console.should be == false
+			end
+		end
   
   end
 end
