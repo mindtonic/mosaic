@@ -22,6 +22,10 @@ def source
 	@source ||= lennon.source
 end
 
+def feedback 
+	@feedback ||= lennon.feedback
+end
+
 def check_pixel_value(pixel, value)
 	pixel[value].should_not be nil
 	pixel[value].should be >= 0
@@ -199,3 +203,8 @@ end
 Then /^mosaic\.jpg should be saved to the filesystem$/ do
   File.exist?("mosaic.jpg").should be true
 end
+
+Then /^Then I should see "([^"]*)"$/ do |message| #"
+  feedback.messages.should include(message)
+end
+
