@@ -8,6 +8,7 @@ module Lennon
       @master = Lennon::Image.new(master)
       @source = Lennon::Source.new(source)
       @feedback = Lennon::Feedback.new
+      @feedback.puts "Welcome to the Lennon Mosaic!"
     end
     
     def prepare_the_master
