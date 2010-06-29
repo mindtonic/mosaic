@@ -14,8 +14,12 @@ def mosaic
 	@mosaic ||= Lennon::Mosaic.new(location, address)
 end
 
+def master
+	@master ||= mosaic.master
+end
+
 def image
-	@image ||= mosaic.master
+	@image ||= Lennon::Image.new(location)
 end
 
 def source
@@ -63,6 +67,16 @@ def make_testing_image
 	@image.canvas_factory		
 end
 
+def make_master_testing_image
+	@master.maximum_width = 10
+	@master.maximum_height = 10
+	@master.canvas_factory	
+end
+
 def remove_mosaic_file
 	File.unlink("mosaic.jpg") if File.exist?("mosaic.jpg")
+end
+
+def test_feedback(message)
+	Lennon::Feedback.instance.messages.should include(message)
 end
