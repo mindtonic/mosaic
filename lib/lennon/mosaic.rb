@@ -6,7 +6,7 @@ module Lennon
   	attr_accessor :master, :source, :feedback, :canvas, :average_colors, :mosaic_images
   
     def initialize(master, source, output = false)
-      @master = Lennon::Image.new(master)
+      @master = Lennon::Master.new(master)
       @source = Lennon::Source.new(source)
       @feedback = Lennon::Feedback.instance
       @feedback.puts "Welcome to the Lennon Mosaic!"
