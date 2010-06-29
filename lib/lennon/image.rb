@@ -7,8 +7,8 @@ module Lennon
   
   	def initialize(location)
   		@location = location
-  		@maximum_width = 400
-  		@maximum_height = 400
+  		@maximum_width = 40
+  		@maximum_height = 40
   	end
   	
   	def canvas_factory
@@ -66,14 +66,5 @@ module Lennon
   			:alpha => alpha/num_pixels
   		}
   	end
-  	
-		def create_pixel_array
-			resize!
-			@pixel_array = []
-			report "-- Collecting Image Pixels"
-			@canvas.each_pixel do |pixel, c, r|  
-			  @pixel_array << {:red => pixel.red, :green => pixel.green, :blue => pixel.blue}  
-			end
-		end	
  	end
 end

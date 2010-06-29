@@ -32,7 +32,7 @@ module Lennon
       end    
       
       it "should provide valuable feedback" do
-      	@mosaic.feedback.messages.should include("-- Downloading Image")
+      	test_feedback("-- Downloading Image")
       end  
     end
     
@@ -47,7 +47,7 @@ module Lennon
     	end
     	
       it "should provide valuable feedback" do
-      	@mosaic.feedback.messages.should include("-- Image does not need to be resized")
+      	test_feedback("-- Image does not need to be resized")
       end 
     end
     
@@ -62,7 +62,7 @@ module Lennon
     	end
     	
       it "should provide valuable feedback" do
-      	@mosaic.feedback.messages.should include("-- Resizing Image")
+      	test_feedback("-- Resizing Image")
       end 
     end
     
@@ -79,27 +79,7 @@ module Lennon
       end
       
       it "should provide valuable feedback" do
-      	@mosaic.feedback.messages.should include("-- Calculating Average Color")
-      end     	
-    end
-
-    context "create_pixel_array" do
-			before(:each) do
-				make_testing_image
-    		@image.create_pixel_array
-			end
-			
-      it "should assign a value to the pixel_array" do
-      	@image.pixel_array.should_not be nil
-      	@image.pixel_array.should be_a_kind_of Array
-      	for pixel in @image.pixel_array
-      		pixel.should be_a_kind_of Hash
-      		check_all_pixels(pixel)
-      	end
-      end
-      
-      it "should provide valuable feedback" do
-      	@mosaic.feedback.messages.should include("-- Collecting Image Pixels")
+      	test_feedback("-- Calculating Average Color")
       end     	
     end
 
@@ -125,7 +105,7 @@ module Lennon
       end
       
       it "should provide valuable feedback" do
-      	@mosaic.feedback.messages.should include("-- Calculating HSL Value")
+      	test_feedback("-- Calculating HSL Value")
       end 
 		end
   end
