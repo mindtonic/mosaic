@@ -142,6 +142,11 @@ When /^I Run the program from the command line$/ do
 	mosaic.feedback.no_print_to_console!
 end
 
+When /^I call calculate_hsl$/ do
+  image.calculate_hsl
+end
+
+
 
 #
 # Then
@@ -236,3 +241,6 @@ Then /^no errors should be raised$/ do
   lambda {source.pull_images}.should_not raise_error
 end
 
+Then /^the Image should have a value for hsl$/ do
+  image.hsl.should_not be nil
+end

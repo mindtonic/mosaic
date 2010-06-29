@@ -103,16 +103,30 @@ module Lennon
       end     	
     end
 
-			context "Catching Errors" do
-				before(:each) do
-					@image.location = "i_do_not_exist.gif"
-				end
-				
-				it "Should throw an error" do
-					lambda {@image.canvas_factory}.should raise_error
-				end
-			
+		context "Catching Errors" do
+			before(:each) do
+				@image.location = "i_do_not_exist.gif"
 			end
-
+			
+			it "Should throw an error" do
+				lambda {@image.canvas_factory}.should raise_error
+			end
+		end
+		
+		context "calculate_hsl" do
+			before(:each) do
+				make_testing_image
+    		@image.calculate_hsl
+			end
+			
+      it "should assign a value to the hsl" do
+      	@image.hsl.should_not be nil
+      	@image.hsl.should be_a_kind_of Hash
+      end
+      
+      it "should provide valuable feedback" do
+      	@mosaic.feedback.messages.should include("-- Calculating HSL Value")
+      end 
+		end
   end
 end
