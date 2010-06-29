@@ -4,7 +4,7 @@ The SysAdmin resizes the master image to
 the right size for the final lennon image
 
 Scenario: resize_image! when the image is smaller than the maximums
-	Given I have an Image Instance
+	Given I have a Master Image Instance
 	And I have a Small Master Image
 	And a Maximum Width
 	And a Maximum Height
@@ -13,7 +13,7 @@ Scenario: resize_image! when the image is smaller than the maximums
 	And the image should not be taller than the Maximum Height 
 
 Scenario: resize_image! when the image is larger than the maximums
-	Given I have an Image Instance
+	Given I have a Master Image Instance
 	And I assign a Large Master Image
 	And a Maximum Width
 	And a Maximum Height

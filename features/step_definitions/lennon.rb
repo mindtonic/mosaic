@@ -48,7 +48,11 @@ Given /^I have a Feed of Images$/ do
 end
 
 Given /^I have an Image Instance$/ do
-  image
+  @image = Lennon::Image.new(location)
+end
+
+Given /^I have a Master Image Instance$/ do
+	@image = Lennon::Master.new(location)
 end
 
 Given /^I assign a Large Master Image$/ do
@@ -154,7 +158,7 @@ end
 
 Then /^Mosaic should have a Master Image$/ do
 	lennon.master.should_not be nil
-	lennon.master.should be_a_kind_of Lennon::Image
+	lennon.master.should be_a_kind_of Lennon::Master
 end
 
 Then /^Mosaic should have a Source of Images$/ do

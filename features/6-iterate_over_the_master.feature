@@ -3,7 +3,7 @@ Feature: Collect The Master's Pixels
 Collect all of the pixels from the Master into an Array.
 
 Scenario: canvas_factory builds the Master Image Object
-	Given I have an Image Instance
+	Given I have a Master Image Instance
 	And I have a Master Image
 	And I have a small image size for easier testing
 	When I create_pixel_array
