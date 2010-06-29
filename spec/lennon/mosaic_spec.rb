@@ -14,7 +14,7 @@ module Lennon
 	      end
 	      
 	      it "should have the same value as @image" do
-	      	@mosaic.master.should be_a_kind_of Lennon::Image
+	      	@mosaic.master.should be_a_kind_of Lennon::Master
 	      end
 	    end
 	    
@@ -34,7 +34,7 @@ module Lennon
 	      end
 	      
 	      it "should return a startup message" do
-	      	@mosaic.feedback.messages.should include("Welcome to the Lennon Mosaic!")
+	      	test_feedback("Welcome to the Lennon Mosaic!")
 	      end
 	    end
 
@@ -123,8 +123,8 @@ module Lennon
 			end
 			
       it "should provide valuable feedback" do
-      	@mosaic.feedback.messages.should include("-- Building Mosaic")
-      	@mosaic.feedback.messages.should include("-- Mosaic Built")
+      	test_feedback("-- Building Mosaic")
+      	test_feedback("-- Mosaic Built")
       end 
     end
     
@@ -143,7 +143,7 @@ module Lennon
 			end
 			
       it "should provide valuable feedback" do
-      	@mosaic.feedback.messages.should include("-- Saving Mosaic")
+      	test_feedback("-- Saving Mosaic")
       end   
     end
     
@@ -163,8 +163,8 @@ module Lennon
 			end
 			
       it "should provide valuable feedback" do
-      	@mosaic.feedback.messages.should include("....... Imagining A Mosaic! .......")
-      	@mosaic.feedback.messages.should include("....... All Done! .......")
+      	test_feedback("....... Imagining A Mosaic! .......")
+      	test_feedback("....... All Done! .......")
       end
     end
      

@@ -45,10 +45,6 @@ module Lennon
     	it "the image should fit the defined parameters" do
     		image_within_size_boundaries(@master)
     	end
-    	
-      it "should provide valuable feedback" do
-      	test_feedback("-- Image does not need to be resized")
-      end 
     end
     
     context "resizing the image with a large image" do
