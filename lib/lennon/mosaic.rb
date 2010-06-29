@@ -19,6 +19,7 @@ module Lennon
 			prepare_the_source_images
 			create_mosaic
 			save
+			clean_up
 			report "....... All Done! ......."
 			report lyrics
     end
@@ -37,7 +38,7 @@ module Lennon
     	num = 1
     	@source.images.each do |image|
     		begin	
-	    		report "Calculating Color #{num} of #{@source.images.length}" 
+	    		report "Processing Image #{num} of #{@source.images.length}" 
 	    		image.calculate_average_color
 	    		num += 1
 	    	rescue Magick::ImageMagickError
@@ -71,6 +72,16 @@ module Lennon
 			report "-- Saving Mosaic"
 			mosaic = @mosaic_images.mosaic
 			mosaic.write('mosaic.jpg')
+		end
+		
+		def clean_up
+			report "-- Cleaning Up"
+			@source.images.each {|image| @source.images.delete(image)}
+			report "-- Source Images Deleted"
+# 			@source.delete
+# 			report "-- Source Deleted"
+# 			@master.delete
+# 			report "-- Master Deleted"
 		end
 	
 		def find_best_image(master_pixel)
