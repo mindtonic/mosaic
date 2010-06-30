@@ -19,11 +19,8 @@ module Lennon
     
     def imagine!
     	report "....... Imagining A Mosaic! ......."
-			prepare_the_master
-			prepare_the_source_images
 			create_mosaic
 			save
-			clean_up
 			report "....... All Done! ......."
 			report lyrics
     end
@@ -61,6 +58,10 @@ module Lennon
 
 		def create_mosaic
 			report "-- Building Mosaic"
+			
+			prepare_the_master
+			prepare_the_source_images
+			
 			tile_size = 40
 			@mosaic_images = ImageList.new
 			tile = Rectangle.new(tile_size,tile_size,0,0)
@@ -75,6 +76,7 @@ module Lennon
 			    num = num.next
 			  end
 			end
+			
 			report "-- Mosaic Built"
 		end
 		
@@ -90,19 +92,13 @@ module Lennon
 		end
 		
 		#
-		# Save and Clean
+		# Save
 		#
 		
 		def save
 			report "-- Saving Mosaic"
 			mosaic = @mosaic_images.mosaic
 			mosaic.write('mosaic.jpg')
-		end
-		
-		def clean_up
-			report "-- Cleaning Up"
-			@source.images.each {|image| @source.images.delete(image)}
-			report "-- Source Images Deleted"
 		end
   end
 end

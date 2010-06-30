@@ -51,7 +51,7 @@ module Lennon
     	end
     	
       it "should provide valuable feedback" do
-      	test_feedback("-- Downloading Image")
+      	test_feedback("-- Downloading Source Images")
       end 
     end
 	end

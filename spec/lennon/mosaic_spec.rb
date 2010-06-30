@@ -108,7 +108,9 @@ module Lennon
     
     context "create_mosaic" do
     	before(:all) do
-    		build_full_mosaic
+				mosaic
+				@mosaic.master.maximum_width = 5
+				@mosaic.master.maximum_height = 5
     		@mosaic.feedback.print_to_console!
     		@mosaic.create_mosaic
     		@mosaic.feedback.no_print_to_console!
@@ -131,7 +133,9 @@ module Lennon
     context "save_mosaic" do
     	before(:all) do
     		remove_mosaic_file
-				build_full_mosaic
+				mosaic
+				@mosaic.master.maximum_width = 5
+				@mosaic.master.maximum_height = 5
 				@mosaic.feedback.print_to_console!
     		@mosaic.create_mosaic
     		@mosaic.save

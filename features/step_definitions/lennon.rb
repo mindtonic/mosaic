@@ -11,15 +11,15 @@ def address
 end      
 
 def lennon
-  @lennon ||= Lennon::Mosaic.new(location, address)
+  @lennon ||= Lennon::Mosaic.new(image.location, source.address)
 end
 
 def image
-	@image ||= lennon.master
+	@image ||= Lennon::Master.new(location)
 end
 
 def source
-	@source ||= lennon.source
+	@source ||= Lennon::Source.new(address)
 end
 
 def feedback 
@@ -35,28 +35,24 @@ end
 # Given
 #
 
+Given /^I have the location of a Master Image$/ do
+  location
+end
+
+Given /^I have the address for a Feed of Images$/ do
+  address
+end
+
 Given /^I have a Master Image$/ do
-	location
-end
-
-Given /^I have a Small Master Image$/ do
-  @location = "tmp/john_lennon.jpg"
-end
-
-Given /^I have a Feed of Images$/ do
-	address
-end
-
-Given /^I have an Image Instance$/ do
-  @image = Lennon::Image.new(location)
-end
-
-Given /^I have a Master Image Instance$/ do
 	@image = Lennon::Master.new(location)
 end
 
-Given /^I assign a Large Master Image$/ do
-  image.location = "tmp/large_ruby.jpg"
+Given /^I have a Small Master Image$/ do
+  @image = Lennon::Master.new("tmp/CA-Mini.gif")
+end
+
+Given /^I have a Large Master Image$/ do
+  @image = Lennon::Master.new("tmp/large_ruby.jpg")
 end
 
 Given /^a Maximum Width$/ do
@@ -67,36 +63,26 @@ Given /^a Maximum Height$/ do
   image.maximum_height.should_not be nil
 end
 
-Given /^I have a Source Instance$/ do
-  source
+Given /^I have a Source$/ do
+  @source = Lennon::Source.new(address)
+end
+
+Given /^I have an Image$/ do
+  @image = Lennon::Image.new(location)
 end
 
 Given /^a canvas$/ do
   image.canvas_factory
 end
 
-Given /^I have a small image size for easier testing$/ do
-	image.maximum_width = 10
-	image.maximum_height = 10
+Given /^I have a testing Mosaic$/ do
+  lennon.master.maximum_width = 10
+	lennon.master.maximum_height = 10
 end
 
-Given /^I have prepared the Master$/ do
-	lennon.feedback.print_to_console!
-  lennon.prepare_the_master
-  lennon.feedback.no_print_to_console!
+Given /^I have a Source with some Bad Entries$/ do
+  @source = Lennon::Source.new("tmp/feed_bad.xml")
 end
-
-Given /^I have Prepared the Source Images$/ do
-	lennon.feedback.print_to_console!
-  lennon.prepare_the_source_images
-  lennon.feedback.no_print_to_console!
-end
-
-Given /^I have a Feed of Images with some Bad Entries$/ do
-  @address = "tmp/feed_bad.xml"
-end
-
-
 
 #
 # When
@@ -110,7 +96,7 @@ When /^I Download the Image$/ do
   image.canvas_factory
 end
 
-When /^I Resize the Master$/ do
+When /^I Resize the Image$/ do
   image.resize!
 end
 
@@ -126,11 +112,9 @@ end
 When /^I create_pixel_array$/ do
   image.create_pixel_array
 end
-
+ 
 When /^I Create the Mosaic$/ do
-	lennon.feedback.print_to_console!
   lennon.create_mosaic
-  lennon.feedback.no_print_to_console!
 end
 
 When /^I Save the Mosaic$/ do
@@ -138,19 +122,13 @@ When /^I Save the Mosaic$/ do
 end
 
 When /^I Run the program from the command line$/ do
-	mosaic = Lennon::Mosaic.new(location, address)
-	mosaic.master.maximum_width = 5
-	mosaic.master.maximum_height = 5
-	mosaic.feedback.print_to_console!
-	mosaic.imagine!
-	mosaic.feedback.no_print_to_console!
+	@lennon = Lennon::Mosaic.new(image.location, source.address, true)
+	lennon.imagine!
 end
 
 When /^I call calculate_hsl$/ do
   image.calculate_hsl
 end
-
-
 
 #
 # Then
@@ -181,14 +159,7 @@ end
 
 Then /^the Source should have Images$/ do
   source.images.should_not be nil
-end
-
-Then /^they should be an Array of Images$/ do
   source.images.should be_a_kind_of Array
-end
-
-Then /^there should be more than one Image$/ do
-  source.images.length.should be > 0
 end
 
 Then /^they should be Lennon::Image Objects$/ do
@@ -197,39 +168,12 @@ end
 
 Then /^the Image should have a value for average_colors$/ do
   image.average_color.should_not be nil
-end
-
-Then /^it should be a Hash$/ do
   image.average_color.should be_a_kind_of Hash
-end
-
-Then /^the Hash should have a value for Red$/ do
-	check_pixel_value(image.average_color, :red)
-end
-
-Then /^the Hash should have a value for Green$/ do
-  check_pixel_value(image.average_color, :green)
-end
-
-Then /^the Hash should have a value for Blue$/ do
-  check_pixel_value(image.average_color, :blue)
 end
 
 Then /^the Image should have a pixel_array$/ do
   image.pixel_array.should_not be nil
-end
-
-Then /^they should be an Array of pixels$/ do
-	image.pixel_array.should be_a_kind_of Array
-end
-
-Then /^they should be an Array of average_color Hashes$/ do
-  for pixels in image.pixel_array
-  	pixels.should be_a_kind_of Hash
-  	check_pixel_value(pixels, :red)
-  	check_pixel_value(pixels, :green)
-  	check_pixel_value(pixels, :blue)
-  end
+  image.pixel_array.should be_a_kind_of Array
 end
 
 Then /^mosaic\.jpg should be saved to the filesystem$/ do
@@ -248,3 +192,28 @@ end
 Then /^the Image should have a value for hsl$/ do
   image.hsl.should_not be nil
 end
+
+# Then /^the Hash should have a value for Red$/ do
+# 	check_pixel_value(image.average_color, :red)
+# end
+# 
+# Then /^the Hash should have a value for Green$/ do
+#   check_pixel_value(image.average_color, :green)
+# end
+# 
+# Then /^the Hash should have a value for Blue$/ do
+#   check_pixel_value(image.average_color, :blue)
+# end
+# 
+# Then /^they should be an Array of pixels$/ do
+# 	image.pixel_array.should be_a_kind_of Array
+# end
+# 
+# Then /^they should be an Array of average_color Hashes$/ do
+#   for pixels in image.pixel_array
+#   	pixels.should be_a_kind_of Hash
+#   	check_pixel_value(pixels, :red)
+#   	check_pixel_value(pixels, :green)
+#   	check_pixel_value(pixels, :blue)
+#   end
+# end
