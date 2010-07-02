@@ -87,6 +87,43 @@ Feedback and Operation will be to add genuine feedback to the script so that we 
 	When the SysAdmin enters the start command, a Mosaic is created
 
 
+------------------------------
+3. Error Checking
+------------------------------
+The two key areas where errors are prone to occur are when the image is downloaded, and when the best image is calculated.  Error proof both of these areas and delete the guilty image from the Source Images queue.
+
+13. Catching Bad Image Downloads
+	What happens when a Source Image download fails?
+
+------------------------------
+4. HSL Calculation
+------------------------------
+
+14. Generating the HSL Value for an Image
+	Creating the HSL value for an Image
+
+
+------------------------------
+5. Refactor 1
+------------------------------
+Redesign the way that image processing is handled by moving the master image into its own class.  Then rebuild the pattern for the Source Images so that they are immediately resized to their thumbnail size after download, that way the color average calculations are operating on a much smaller image.
+
+15. Download and Resize an image during initializiation
+
+
+------------------------------
+6. Data Storage
+------------------------------
+Store the Source Image information in a database and work out a better comparison algorithm using a database query to find the best color match.  Try a Mongo database with MongoMapper as the first database try.
+
+
+
+
+
+
+
+
+
 
 +++++++ EVERYTHING BELOW THIS LINE IS A BRAINSTORM WAITING TO BE IMPLEMENTED +++++++++++
 
