@@ -12,13 +12,28 @@ module Lennon
         @image.location.should_not be nil
       end
       
-      it "should not assign a value to the canvas" do
-      	@image.canvas.should be nil
+      it "should assign a value to the canvas" do
+      	@image.canvas.should_not be nil
       end
       
 	    it "should have maximum parameters" do
 	    	image_boundaries_required(@image)
 	    end
+	    
+    	it "the image should be resized" do
+    		image_within_size_boundaries(@image)
+    	end
+    	
+      it "should assign a value to the average_colors" do
+      	@image.average_color.should_not be nil
+      	@image.average_color.should be_a_kind_of Hash
+      	check_all_pixels(@image.average_color)
+      end
+      
+      it "should assign a value to the hsl" do
+      	@image.hsl.should_not be nil
+      	@image.hsl.should be_a_kind_of Hash
+      end
     end
     
     context "canvas_factory" do
@@ -82,6 +97,7 @@ module Lennon
 		context "Catching Errors" do
 			before(:each) do
 				@image.location = "i_do_not_exist.gif"
+				@image.canvas = nil
 			end
 			
 			it "Should throw an error" do

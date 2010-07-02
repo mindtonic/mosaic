@@ -48,21 +48,6 @@ module Lennon
 				end
 			end
     end
-    
-    context "Catching Errors" do
-			before(:each) do
-				@mosaic.source.address = "tmp/feed_bad.xml"
-			end
-			
-			it "Should not raise an error" do
-				lambda {@mosaic.prepare_the_source_images}.should_not raise_error
-			end
-			
-			it "Should have 2 less entries" do
-				@mosaic.prepare_the_source_images
-				@mosaic.source.images.length.should be == (Hpricot::XML(File.open(@mosaic.source.address))/"enclosure").length - 2
-			end
-    end
 
     context "find_best_image" do
     	before(:all) do

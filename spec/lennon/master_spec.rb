@@ -12,13 +12,26 @@ module Lennon
         @master.location.should_not be nil
       end
       
-      it "should not assign a value to the canvas" do
-      	@master.canvas.should be nil
+      it "should assign a value to the canvas" do
+      	@master.canvas.should_not be nil
       end
       
 	    it "should have maximum parameters" do
 	    	image_boundaries_required(@master)
 	    end
+	    
+    	it "the image should fit the defined parameters" do
+    		image_within_size_boundaries(@master)
+    	end
+    	
+      it "should assign a value to the pixel_array" do
+      	@master.pixel_array.should_not be nil
+      	@master.pixel_array.should be_a_kind_of Array
+      	for pixel in @master.pixel_array
+      		pixel.should be_a_kind_of Hash
+      		check_all_pixels(pixel)
+      	end
+      end
     end
     
     context "canvas_factory" do
@@ -74,6 +87,25 @@ module Lennon
       	for pixel in @master.pixel_array
       		pixel.should be_a_kind_of Hash
       		check_all_pixels(pixel)
+      	end
+      end
+      
+      it "should provide valuable feedback" do
+      	test_feedback("-- Collecting Image Pixels")
+      end     	
+    end
+    
+    context "create_hsl_pixel_array" do
+			before(:each) do
+				make_master_testing_image
+    		@master.create_hsl_pixel_array
+			end
+			
+      it "should assign a value to the hsl_pixel_array" do
+      	@master.hsl_pixel_array.should_not be nil
+      	@master.hsl_pixel_array.should be_a_kind_of Array
+      	for pixel in @master.hsl_pixel_array
+      		pixel.should be_a_kind_of Hash
       	end
       end
       

@@ -35,7 +35,7 @@ end
 # Given
 #
 
-Given /^I have the location of a Master Image$/ do
+Given /^I have the location of an Image$/ do
   location
 end
 
@@ -130,6 +130,16 @@ When /^I call calculate_hsl$/ do
   image.calculate_hsl
 end
 
+When /^I build the Image$/ do
+  @image = Lennon::Image.new(location)
+end
+
+When /^I build the Master Image$/ do
+  @image = Lennon::Master.new(location)
+end
+
+
+
 #
 # Then
 #
@@ -147,6 +157,11 @@ end
 Then /^the Image should have a canvas object$/ do
 	image.canvas.should_not be nil
 	image.canvas.should be_a_kind_of Magick::ImageList
+end
+
+Then /^the Image should be resized$/ do
+  image.canvas[0].rows.should be <= image.maximum_width
+  image.canvas[0].columns.should be <= image.maximum_height
 end
 
 Then /^the image should not be wider than the Maximum Width$/ do
@@ -191,6 +206,11 @@ end
 
 Then /^the Image should have a value for hsl$/ do
   image.hsl.should_not be nil
+end
+
+Then /^the Image should have an hsl_pixel_array$/ do
+  image.hsl_pixel_array.should_not be nil
+  image.hsl_pixel_array.should be_a_kind_of Array
 end
 
 # Then /^the Hash should have a value for Red$/ do

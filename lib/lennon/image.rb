@@ -8,16 +8,24 @@ module Lennon
   	def initialize(location)
   		@location = location
   		@maximum_width = 40
-  		@maximum_height = 40
+  		@maximum_height = 40  		
+  		canvas_factory
+  		resize!
+  		calculate_average_color
+  		calculate_hsl
   	end
   	
   	def canvas_factory
   		report "-- Downloading Image"
-			@canvas ||= Magick::ImageList.new(@location)
+  		begin	
+    		@canvas ||= Magick::ImageList.new(@location)
+    	rescue Magick::ImageMagickError
+    		@source.images.delete(image)
+    	end
   	end
   	
     def resize!
-    	canvas_factory
+    	#canvas_factory
     	if @canvas[0].rows > @maximum_width or @canvas[0].columns > @maximum_height
     		report "-- Resizing Image"
     		@canvas.change_geometry!("#{@maximum_width}x#{@maximum_height}") {|cols, rows, img| img.resize!(cols, rows)}
@@ -27,7 +35,7 @@ module Lennon
     end
   
   	def calculate_average_color
-  		resize!
+  		#resize!
   	
   		report "-- Calculating Average Color"
 		  red, green, blue = 0, 0, 0
@@ -46,7 +54,7 @@ module Lennon
   	end
   	
   	def calculate_hsl
-  		resize!
+  		#resize!
   	
   		report "-- Calculating HSL Value"
 		  hue, saturation, lightness, alpha = 0, 0, 0, 0
